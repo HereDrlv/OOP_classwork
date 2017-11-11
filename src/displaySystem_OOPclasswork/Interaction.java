@@ -26,9 +26,6 @@ public class Interaction {
 	}
 	
 
-	void showMoreDetails() {
-		
-	};
 	static ArrayList<String> filterActivityByTime(String inputTime) {
 		ArrayList<String> filterResult =new ArrayList<String>();
 		for(Activity a:Activity.getActivities()) {

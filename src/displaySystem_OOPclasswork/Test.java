@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
-public class displaySystemTEST {
+public class Test {
 
 	public static void main(String[] args) throws IOException{
 		readData();//读取csv文件数据。新建Society与Activity类的数据，并将相关活动与社团双向绑定在对方属性中
