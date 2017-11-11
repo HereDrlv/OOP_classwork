@@ -2,7 +2,9 @@ package displaySystem_OOPclasswork;
 
 import java.util.ArrayList;
 
-public class Activity {
+import com.sun.org.apache.bcel.internal.generic.GOTO;
+
+public class Activity{
 
 	
 	private String title;
@@ -36,6 +38,9 @@ public class Activity {
 		return Activity.activities;
 	}
 
+	public static void setActivities(ArrayList<Activity> activities){
+		Activity.activities = activities;
+	}
 	public String getTitle() {
 		return title;
 	}
@@ -85,6 +90,62 @@ public class Activity {
 	}
 	//.
 	
-
+	public static ArrayList<String> getActivityTitleList() {
+		ArrayList<String> resultList=new ArrayList();
+		for(Activity a : Activity.activities) {
+			resultList.add(a.title);
+		}
+		return resultList;
+	}
+	static public Activity getActivityByName(String title){
+		for(Activity a:Activity.getActivities()) {
+			if(a.getTitle().equals(title)) {
+				return a;
+			}
+		}
+		return null;
+	}
 	
+	public static void showActicityDetails(Activity goalActivity) {
+		
+		System.out.println("活动标题："+goalActivity.getTitle());
+		System.out.println("活动时间："+goalActivity.getTime());
+		System.out.println("活动地点："+goalActivity.getPlace());
+		System.out.println("简介："+goalActivity.getBrief());
+		System.out.println("备注："+goalActivity.getPs());
+		for(Society o: goalActivity.getOrganizers()) {			
+			System.out.println("主办社团："+o.getName());
+		}
+
+	}
+
+	public static void search(String searchingTitle,String fTime,String fRAct) {
+	     //不填入搜索内容则显示完整列表 
+        ArrayList<String> searchResult=Interaction.searchByTitleOrName(Activity.getActivityTitleList(),searchingTitle);//INPUT
+        //<filter>        
+        	//filterByTime
+        	ArrayList<String> filterResult= Interaction.filterActivityByTime(fTime);//INPUT 不填则无筛选效果
+        	searchResult.retainAll(filterResult);
+        	//filterByRelatedSociety
+        	Society goalSociety=Society.getSocietyByName(fRAct);//INPUT 不填则无筛选效果
+        	if(null!=goalSociety) {	
+            	filterResult.clear();
+	         	for(Activity a:goalSociety.getRelatedActivities()) {         		
+	         		filterResult.add(a.getTitle());
+	         	}
+        	}
+        	searchResult.retainAll(filterResult);
+        //</filter>
+        
+        if(searchResult.isEmpty()) {
+       	 System.out.println("未找到符合条件的内容");        	 
+        }else {
+       	 System.out.println("找到的活动如下：");       
+       	 for(int i=0;i<searchResult.size();i++) {        		 
+       		 System.out.println(i+1+". "+searchResult.get(i));        	 
+       	 }
+        }
+   //</searchViaNameOrTitle(withFilter)(also can show the whole list)>      
+
+	}
 }
